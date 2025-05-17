@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  // Int = a number is short and easy to read (1, 2, 3, etc.)
+  id          Int      @id @default(autoincrement())
+  // we will use the title as the slug but lowercase
+  // and combine with the id to make a unique slug
+  // eg: "/recipes/chicken-legs-1"
+  title       String // "Chicken Legs"
+  description String // "A delicious recipe for chicken legs"
+  
+  ingredients Json
+  temperature Json
+  instructions Json
+  
+  cookingTime Int
+  funnyQuote  String
+  imageUrl    String?  // We make an AI image with Replicate
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
