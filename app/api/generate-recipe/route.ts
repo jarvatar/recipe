@@ -16,29 +16,33 @@ export async function POST(request: Request) {
       schema: RecipeSchema,
       output: 'object',
       prompt: `
-        Generate a detailed air fryer recipe with the following requirements:
+        Generate a detailed cocktail recipe with the following requirements:
         ${prompt}
 
         The recipe should include:
         - A creative and descriptive title
-        - A brief description of the dish
+        - A brief description of the cocktail
+        - The specific type of glass the cocktail should be served in (e.g., "Martini glass", "Rocks glass", "Highball glass", "Coupe glass", "Margarita glass")
+        - The garnish that should be used (e.g., "Lemon twist", "Olive", "Mint sprig", "Orange peel", "Cherry", "Lime wheel")
         - A complete list of ingredients with measurements and optional emoji
-        - Air fryer temperature in both Fahrenheit and Celsius
-        - Cooking time in minutes
-        - Clear, step-by-step instructions
-        - A funny cooking-related quote
+        - Clear, step-by-step mixing instructions
+        - A funny cocktail-related quote
         
         Format:
         - Title should be descriptive but concise
         - Description should be appetizing and informative
+        - Glass type should be specific (Martini glass, Rocks glass, Highball glass, etc.)
+        - Garnish should be realistic and appropriate for the cocktail
         - Each ingredient should have:
           * An optional emoji
           * The ingredient name
-          * Optional amount/measurement
-        - Temperature should be optimized for air frying
-        - Instructions should be in chronological order
+          * Specific amount/measurement
+        - Instructions should be in chronological order for mixing
+        - Add a list of alternative ingredients that can be used to make the cocktail
+        - Include a brief description of what the cocktail is best served with
         - Use clear, everyday language
-        - Add a humorous quote related to cooking or the dish
+        - Add a humorous quote related to cocktails or drinking
+        
       `,
       onFinish: async (event) => {
         if (!event.object) return

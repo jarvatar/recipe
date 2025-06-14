@@ -28,13 +28,12 @@ export function RecipeGenerator() {
   return (
     <div className="space-y-4 rounded-lg border border-input/20 bg-input/20 p-4">
       <p className="text-balance text-center">
-        Enter any ingredients, and we'll tell you how to air fry it – whether
-        you should or not.
+        Enter the ingredients you have and we'll tell you how to craft the perfect cocktail, or simply enter a cocktail name and we'll tell you how to make it.
       </p>
 
       <div className="flex flex-col gap-2">
         <Textarea
-          placeholder="Enter what you'd like to cook (e.g., vegetarian lasagna, chocolate cake)"
+          placeholder="Enter what you'd like to mix up (e.g., maple bacon old fashioned, watermelon martini, gin and tonic)"
           value={prompt}
           className="dark:bg-zinc-900"
           onChange={(e) => setPrompt(e.target.value)}
@@ -63,6 +62,13 @@ export function RecipeGenerator() {
             <p className="text-muted-foreground">{recipe.description}</p>
           )}
 
+          {recipe.glassType && recipe.garnish && (
+            <div className="flex gap-4 text-sm text-muted-foreground">
+              <div>🥃 {recipe.glassType}</div>
+              <div>🍋 {recipe.garnish}</div>
+            </div>
+          )}
+
           {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div>
               <h4 className="font-medium">Ingredients:</h4>
@@ -77,16 +83,6 @@ export function RecipeGenerator() {
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
-
-          {recipe.temperature && recipe.cookingTime && (
-            <div className="flex gap-4 text-sm text-muted-foreground">
-              <div>⏲️ {recipe.cookingTime} minutes</div>
-              <div>
-                🌡️ {recipe.temperature.fahrenheit}°F /{' '}
-                {recipe.temperature.celsius}°C
-              </div>
             </div>
           )}
 

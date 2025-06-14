@@ -35,7 +35,7 @@ export async function generateMetadata({
     title: recipe.title,
     description: recipe.description,
     url: `/recipes/${slug}`,
-    image: `/og?path=/recipes/${slug}&title=${encodeURIComponent(recipe.title)}&emoji=${encodeURIComponent(ingredients[0]?.emoji || '🍳')}`,
+    image: `/og?path=/recipes/${slug}&title=${encodeURIComponent(recipe.title)}&emoji=${encodeURIComponent(ingredients[0]?.emoji || '🍸')}`,
     image_alt: recipe.title,
     image_width: 1200,
     image_height: 630,
@@ -59,10 +59,6 @@ export default async function RecipePage({
   const ingredients = Prisma.parseJson<
     { name: string; emoji?: string; amount?: string }[]
   >(recipe.ingredients)
-
-  const temperature = Prisma.parseJson<{ fahrenheit: number; celsius: number }>(
-    recipe.temperature
-  )
 
   const instructions = Prisma.parseJson<string[]>(recipe.instructions)
 
@@ -109,17 +105,17 @@ export default async function RecipePage({
               />
             ) : (
               <div className="flex h-full items-center justify-center text-4xl">
-                🍳
+                🍸
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <div className="inline-flex items-center rounded-full border border-orange-500/50 bg-orange-500/10 px-6 py-2 text-orange-900 dark:text-orange-200">
-              ⏲️ {recipe.cookingTime} minutes
-            </div>
             <div className="inline-flex items-center rounded-full border border-blue-500/50 bg-blue-500/10 px-6 py-2 text-blue-900 dark:text-blue-200">
-              🌡️ {temperature.fahrenheit}°F ({temperature.celsius}°C)
+              🥃 {recipe.glassType}
+            </div>
+            <div className="inline-flex items-center rounded-full border border-green-500/50 bg-green-500/10 px-6 py-2 text-green-900 dark:text-green-200">
+              🍋 {recipe.garnish}
             </div>
           </div>
 
@@ -161,6 +157,34 @@ export default async function RecipePage({
             "{recipe.funnyQuote}"
           </blockquote>
 
+          {/* Additional recipe information */}
+          {recipe.alternativeIngredients && (
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold">Alternative Ingredients</h2>
+              <div className="rounded-xl border bg-muted/20 p-6">
+                <ul className="space-y-2 text-lg">
+                  {(JSON.parse(recipe.alternativeIngredients as string) as string[]).map((alternative, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-orange-500">•</span>
+                      <span>{alternative}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {recipe.bestServedWith && (
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold">Best Served With</h2>
+              <div className="rounded-xl border bg-gradient-to-br from-amber-50 to-orange-50 p-6 dark:from-amber-950/20 dark:to-orange-950/20">
+                <p className="text-lg text-amber-900 dark:text-amber-100">
+                  🍽️ {recipe.bestServedWith}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* SEO: Internal linking to related content improves site structure */}
           {similarRecipes.length > 0 && (
             <div className="mt-8 space-y-8 border-t pt-8">
@@ -183,7 +207,7 @@ export default async function RecipePage({
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center text-2xl">
-                          🍳
+                          🍸
                         </div>
                       )}
                     </div>

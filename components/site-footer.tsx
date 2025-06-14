@@ -12,7 +12,7 @@ export function SiteFooter() {
             Purchase Template
           </a>
           <p className="text-center text-sm leading-loose text-muted-foreground">
-            Part of our Programmatic SEO course
+            Cocktail Magic
           </p>
         </div>
         <a

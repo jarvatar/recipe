@@ -1,155 +1,133 @@
 import { processRecipeWithImage } from '@/app/api/generate-recipe/image-processor'
 import { PrismaClient } from '@prisma/client'
 
-// Example recipe data
+// Example cocktail recipe data
 const exampleRecipes = [
   {
     id: 1,
-    title: 'Air Fryer Crispy Chicken Tenders',
-    description: 'Perfectly crispy chicken tenders with a golden crust',
+    title: 'Classic Martini',
+    description: 'A timeless cocktail with gin and dry vermouth, garnished with an olive or lemon twist',
+    glassType: 'Martini glass',
+    garnish: 'Olive or lemon twist',
     ingredients: [
-      { emoji: '🍗', name: 'chicken tenders', amount: '1 pound' },
-      { emoji: '🥚', name: 'eggs', amount: '2 large' },
-      { emoji: '🥖', name: 'breadcrumbs', amount: '1 cup' },
-      { emoji: '🧂', name: 'seasoning mix', amount: '2 tbsp' },
+      { emoji: '🍸', name: 'gin', amount: '2.5 oz' },
+      { emoji: '🍷', name: 'dry vermouth', amount: '0.5 oz' },
+      { emoji: '🫒', name: 'olive or lemon', amount: 'for garnish' },
     ],
-    temperature: {
-      fahrenheit: 400,
-      celsius: 200,
-    },
-    cookingTime: 12,
     instructions: [
-      'Pat chicken tenders dry with paper towels',
-      'Dip each tender in beaten egg, then coat in seasoned breadcrumbs',
-      'Place in air fryer basket in single layer',
-      'Cook for 6 minutes, flip, then 6 more minutes',
-      'Let rest 2 minutes before serving',
+      'Add gin and vermouth to a mixing glass filled with ice',
+      'Stir well for 30 seconds',
+      'Strain into a chilled martini glass',
+      'Garnish with an olive or lemon twist',
     ],
-    funnyQuote: 'These tenders are anything but chicken! 🐔',
+    funnyQuote: 'Shaken, not stirred... unless you prefer it stirred! 🍸',
   },
   {
     id: 2,
-    title: 'Air Fryer Crispy Potato Wedges',
-    description: 'Perfectly seasoned potato wedges with a fluffy center',
+    title: 'Old Fashioned',
+    description: 'A classic whiskey cocktail with sugar, bitters, and orange',
+    glassType: 'Rocks glass',
+    garnish: 'Orange peel and cherry',
     ingredients: [
-      { emoji: '🥔', name: 'russet potatoes', amount: '2 large' },
-      { emoji: '🫒', name: 'olive oil', amount: '2 tbsp' },
-      { emoji: '🧄', name: 'garlic powder', amount: '1 tsp' },
-      { emoji: '🌿', name: 'dried herbs', amount: '1 tsp' },
+      { emoji: '🥃', name: 'bourbon whiskey', amount: '2 oz' },
+      { emoji: '🍯', name: 'simple syrup', amount: '0.25 oz' },
+      { emoji: '💧', name: 'Angostura bitters', amount: '2-3 dashes' },
+      { emoji: '🍊', name: 'orange peel', amount: 'for garnish' },
+      { emoji: '🍒', name: 'cherry', amount: 'for garnish' },
     ],
-    temperature: {
-      fahrenheit: 380,
-      celsius: 193,
-    },
-    cookingTime: 20,
     instructions: [
-      'Cut potatoes into even wedges',
-      'Soak in cold water for 30 minutes, then dry thoroughly',
-      'Toss with oil and seasonings',
-      'Air fry for 10 minutes, flip, then 10 more minutes',
-      'Season with extra salt while hot',
+      'Add simple syrup and bitters to a rocks glass',
+      'Add a large ice cube',
+      'Pour in the bourbon and stir gently',
+      'Express orange peel oils over the drink and drop in',
+      'Garnish with a cherry',
     ],
-    funnyQuote: 'Wedge you like to try these amazing potatoes! 🥔',
+    funnyQuote: 'Old fashioned never goes out of style! 🥃',
   },
   {
     id: 3,
-    title: 'Crispy Air Fryer Wings',
-    description: 'Extra crispy chicken wings with a perfect crunch',
+    title: 'Mojito',
+    description: 'A refreshing Cuban cocktail with rum, mint, lime, and soda water',
+    glassType: 'Highball glass',
+    garnish: 'Fresh mint sprig and lime wheel',
     ingredients: [
-      { emoji: '🍗', name: 'chicken wings', amount: '2 lbs' },
-      { emoji: '🧂', name: 'salt', amount: '1 tsp' },
-      { emoji: '🌶️', name: 'black pepper', amount: '1/2 tsp' },
-      { emoji: '🧄', name: 'garlic powder', amount: '1 tsp' },
+      { emoji: '🥃', name: 'white rum', amount: '2 oz' },
+      { emoji: '🌿', name: 'fresh mint leaves', amount: '8-10 leaves' },
+      { emoji: '🍋', name: 'fresh lime juice', amount: '1 oz' },
+      { emoji: '🍯', name: 'simple syrup', amount: '0.5 oz' },
+      { emoji: '💧', name: 'soda water', amount: 'to top' },
     ],
-    temperature: {
-      fahrenheit: 400,
-      celsius: 200,
-    },
-    cookingTime: 20,
     instructions: [
-      'Pat wings dry with paper towels',
-      'Season with salt, pepper and garlic powder',
-      'Place in air fryer basket in single layer',
-      'Cook for 10 minutes, flip, cook 10 more minutes',
-      'Let rest 5 minutes before serving',
+      'Muddle mint leaves gently in the bottom of a highball glass',
+      'Add lime juice and simple syrup',
+      'Fill glass with ice',
+      'Add rum and stir',
+      'Top with soda water',
+      'Garnish with mint sprig and lime wheel',
     ],
-    funnyQuote: 'These wings will make you fly high! ✈️',
+    funnyQuote: 'Mint to be refreshing! 🌿',
   },
   {
     id: 4,
-    title: 'Air Fryer Sweet Potato Fries',
-    description: 'Perfectly crispy sweet potato fries without the oil',
+    title: 'Margarita',
+    description: 'A classic tequila cocktail with lime juice and orange liqueur',
+    glassType: 'Margarita glass',
+    garnish: 'Lime wheel and salt rim',
     ingredients: [
-      { emoji: '🍠', name: 'sweet potatoes', amount: '2 large' },
-      { emoji: '🫒', name: 'olive oil', amount: '1 tbsp' },
-      { emoji: '🧂', name: 'sea salt', amount: '1 tsp' },
-      { emoji: '🌿', name: 'paprika', amount: '1/2 tsp' },
+      { emoji: '🌵', name: 'silver tequila', amount: '2 oz' },
+      { emoji: '🍊', name: 'triple sec', amount: '1 oz' },
+      { emoji: '🍋', name: 'fresh lime juice', amount: '1 oz' },
+      { emoji: '🧂', name: 'coarse salt', amount: 'for rim' },
     ],
-    temperature: {
-      fahrenheit: 380,
-      celsius: 193,
-    },
-    cookingTime: 15,
     instructions: [
-      'Cut sweet potatoes into even fries',
-      'Toss with oil and seasonings',
-      'Arrange in single layer in air fryer',
-      'Cook for 8 minutes, shake basket',
-      'Cook additional 7 minutes until crispy',
+      'Rim glass with salt using a lime wedge',
+      'Add all ingredients to a shaker with ice',
+      'Shake vigorously for 15 seconds',
+      'Strain into the salt-rimmed glass over fresh ice',
+      'Garnish with a lime wheel',
     ],
-    funnyQuote: 'Sweet dreams are made of these fries! 🎵',
+    funnyQuote: 'Life gives you limes, make margaritas! 🍹',
   },
   {
     id: 5,
-    title: 'Air Fryer Coconut Shrimp',
-    description: 'Crispy coconut-crusted shrimp with tropical flavor',
+    title: 'Manhattan',
+    description: 'A sophisticated whiskey cocktail with sweet vermouth and bitters',
+    glassType: 'Coupe glass',
+    garnish: 'Maraschino cherry',
     ingredients: [
-      { emoji: '🦐', name: 'large shrimp', amount: '1 pound' },
-      { emoji: '🥥', name: 'shredded coconut', amount: '1 cup' },
-      { emoji: '🥚', name: 'egg', amount: '2 large' },
-      { emoji: '🥖', name: 'panko breadcrumbs', amount: '1/2 cup' },
+      { emoji: '🥃', name: 'rye whiskey', amount: '2 oz' },
+      { emoji: '🍷', name: 'sweet vermouth', amount: '1 oz' },
+      { emoji: '💧', name: 'Angostura bitters', amount: '2 dashes' },
+      { emoji: '🍒', name: 'maraschino cherry', amount: 'for garnish' },
     ],
-    temperature: {
-      fahrenheit: 375,
-      celsius: 190,
-    },
-    cookingTime: 8,
     instructions: [
-      'Peel and devein shrimp, leaving tails on',
-      'Dip in egg, then coat in coconut-panko mixture',
-      'Place in single layer in air fryer basket',
-      'Cook for 4 minutes, flip, then 4 more minutes',
-      'Serve with sweet chili sauce',
+      'Add whiskey, vermouth, and bitters to a mixing glass with ice',
+      'Stir for 30 seconds',
+      'Strain into a chilled coupe glass',
+      'Garnish with a maraschino cherry',
     ],
-    funnyQuote: 'Shell-ebrate good times with these shrimp! 🎉',
+    funnyQuote: 'Manhattan: the cocktail that built New York! 🏙️',
   },
   {
     id: 6,
-    title: 'Air Fryer Garlic Parmesan Brussels Sprouts',
-    description:
-      'Crispy, cheesy Brussels sprouts that will convert any veggie skeptic',
+    title: 'Whiskey Sour',
+    description: 'A balanced cocktail with whiskey, lemon juice, and simple syrup',
+    glassType: 'Rocks glass',
+    garnish: 'Lemon wheel and cherry',
     ingredients: [
-      { emoji: '🥬', name: 'Brussels sprouts', amount: '1 pound' },
-      { emoji: '🧄', name: 'garlic cloves', amount: '4 minced' },
-      { emoji: '🧀', name: 'parmesan cheese', amount: '1/2 cup grated' },
-      { emoji: '🫒', name: 'olive oil', amount: '2 tbsp' },
-      { emoji: '🧂', name: 'salt and pepper', amount: 'to taste' },
+      { emoji: '🥃', name: 'bourbon whiskey', amount: '2 oz' },
+      { emoji: '🍋', name: 'fresh lemon juice', amount: '0.75 oz' },
+      { emoji: '🍯', name: 'simple syrup', amount: '0.75 oz' },
+      { emoji: '🥚', name: 'egg white', amount: '1 (optional)' },
     ],
-    temperature: {
-      fahrenheit: 375,
-      celsius: 190,
-    },
-    cookingTime: 15,
     instructions: [
-      'Trim and halve Brussels sprouts',
-      'Toss with olive oil, garlic, salt, and pepper',
-      'Place in air fryer basket in single layer',
-      'Cook for 10 minutes, shaking halfway',
-      'Sprinkle with parmesan and cook 5 more minutes',
-      'Serve immediately while hot and crispy',
+      'Add all ingredients to a shaker',
+      'Dry shake (without ice) if using egg white',
+      'Add ice and shake vigorously',
+      'Strain into a rocks glass over fresh ice',
+      'Garnish with lemon wheel and cherry',
     ],
-    funnyQuote:
-      "These aren't your grandmother's Brussels sprouts... they're better! 👵",
+    funnyQuote: 'Sweet, sour, and everything in between! 🍋',
   },
 ]
 
@@ -157,7 +135,7 @@ const exampleRecipes = [
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Starting to seed the database with SEO-optimized content...')
+  console.log('🍸 Starting to seed the database with cocktail recipes...')
 
   // Clear existing data
   await prisma.recipe.deleteMany()
@@ -167,17 +145,17 @@ async function main() {
   for (const recipe of exampleRecipes) {
     const { id, ...recipeData } = recipe
 
-    // Create the recipe with SEO optimizations
+    // Create the recipe with cocktail data
     const createdRecipe = await prisma.recipe.create({
       data: recipeData,
     })
-    console.log(`Created SEO-optimized recipe: ${recipe.title}`)
+    console.log(`Created cocktail recipe: ${recipe.title}`)
     await processRecipeWithImage(createdRecipe)
     console.log(`Processed image for recipe: ${recipe.title}`)
   }
 
   console.log(
-    '🌱 Seeding finished! Your recipes are ready for search engines 🚀'
+    '🍸 Seeding finished! Your cocktail recipes are ready! 🚀'
   )
 }
 

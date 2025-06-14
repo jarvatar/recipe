@@ -11,7 +11,7 @@ export function MainNav() {
     <div className="mr-4 hidden md:flex">
       <Link href="/" className="mr-4 flex items-center space-x-1 lg:mr-6">
         <CookingPot className="size-5" />
-        <span className="hidden font-bold lg:inline-block">Time to cook</span>
+        <span className="hidden font-bold lg:inline-block">Mix It Up</span>
       </Link>
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
         <Link

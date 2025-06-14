@@ -30,9 +30,9 @@ export async function generateMetadata({
   // https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading
   return generatePageMeta({
     title: isFirstPage
-      ? 'Air Fryer Recipes - Recipe Generator'
-      : `Air Fryer Recipes - Page ${currentPage} - Recipe Generator`,
-    description: 'Browse our collection of AI-generated air fryer recipes.',
+      ? 'Cocktail Recipes - Recipe Generator'
+      : `Cocktail Recipes - Page ${currentPage} - Recipe Generator`,
+    description: 'Browse our collection of AI-generated cocktail recipes.',
     url: isFirstPage ? '/recipes' : `/recipes?page=${currentPage}`,
   })
 }
@@ -51,12 +51,10 @@ export default async function RecipesPage({
       <div className="mx-auto max-w-6xl space-y-8 py-8">
         <div className="space-y-4">
           <h1 className="text-balance text-4xl font-bold sm:text-6xl">
-            Air Fryer Recipes
+            Cocktail Recipes
           </h1>
           <p className="max-w-2xl text-xl text-muted-foreground">
-            Discover delicious air fryer recipes from our community. From crispy
-            wings to gourmet steaks, find your next favorite dish with exact
-            cooking times and temperatures.
+            Discover delicious cocktail recipes from our community. From classics like the Manhattan to modern creations like the Maple Bacon Old Fashioned, find your next favorite cocktail with exact instructions.
           </p>
         </div>
 

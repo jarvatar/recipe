@@ -12,15 +12,19 @@ model Recipe {
   id          Int      @id @default(autoincrement())
   // we will use the title as the slug but lowercase
   // and combine with the id to make a unique slug
-  // eg: "/recipes/chicken-legs-1"
-  title       String // "Chicken Legs"
-  description String // "A delicious recipe for chicken legs"
+  // eg: "/recipes/classic-martini-1"
+  title       String // "Classic Martini"
+  description String // "A timeless cocktail with gin and vermouth"
   
   ingredients Json
-  temperature Json
+  glassType   String // "Martini glass", "Rocks glass", etc.
+  garnish     String // "Lemon twist", "Olive", "Mint sprig", etc.
   instructions Json
   
-  cookingTime Int
+  // Additional information fields requested in the prompt
+  alternativeIngredients Json? // List of alternative ingredients that can be used
+  bestServedWith String? // Description of what the cocktail is best served with
+  
   funnyQuote  String
   imageUrl    String?  // We make an AI image with Replicate
   

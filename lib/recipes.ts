@@ -4,6 +4,8 @@ import { prisma } from './prisma'
 export const RecipeSchema = z.object({
   title: z.string(),
   description: z.string(),
+  glassType: z.string(),
+  garnish: z.string(),
   ingredients: z.array(
     z.object({
       emoji: z.string().optional(),
@@ -11,12 +13,9 @@ export const RecipeSchema = z.object({
       amount: z.string().optional(),
     })
   ),
-  temperature: z.object({
-    fahrenheit: z.number(),
-    celsius: z.number(),
-  }),
-  cookingTime: z.number(),
   instructions: z.array(z.string()),
+  alternativeIngredients: z.array(z.string()).optional(),
+  bestServedWith: z.string().optional(),
   funnyQuote: z.string(),
 })
 

@@ -9,29 +9,25 @@ export function RecipeSchema({
   slug: string
 }) {
   const recipeId = Number(slugToID(slug))
-  const ingredients = Prisma.parseJson<{ name: string; emoji?: string }[]>(
+  const ingredients = Prisma.parseJson<{ name: string; emoji?: string; amount?: string }[]>(
     recipe.ingredients
-  )
-  const temperature = Prisma.parseJson<{ fahrenheit: number }>(
-    recipe.temperature
   )
   const instructions = Prisma.parseJson<string[]>(recipe.instructions)
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
-    name: 'Recipe Generator',
+    name: recipe.title,
     description: recipe.description,
     image: `/api/recipes/${recipeId}/image`,
     author: {
       '@type': 'Organization',
-      name: 'Recipe Generator',
+      name: 'Cocktail Recipe Generator',
       url: '/',
     },
     datePublished: new Date().toISOString(),
     prepTime: 'PT5M',
-    cookTime: `PT${recipe.cookingTime}M`,
-    totalTime: `PT${recipe.cookingTime + 5}M`,
-    recipeYield: '2 servings',
+    recipeCategory: 'Cocktail',
+    recipeYield: '1 cocktail',
     recipeIngredient: ingredients.map(
       (ing: { name: string; emoji?: string; amount?: string }) =>
         `${ing.amount || ''} ${ing.name}`.trim()
@@ -43,12 +39,9 @@ export function RecipeSchema({
         text: instruction,
       })
     ),
-    cookingMethod: 'Air Frying',
-    temperature: temperature.fahrenheit,
-    nutrition: {
-      '@type': 'NutritionInformation',
-      cookingMethod: 'Air Frying',
-    },
+    keywords: `cocktail, ${recipe.glassType}, ${recipe.garnish}, mixology`,
+    recipeEquipment: recipe.glassType,
+    garnish: recipe.garnish,
   }
 
   return (

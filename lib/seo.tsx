@@ -6,9 +6,9 @@ import type { StaticImageData } from 'next/image'
 const baseURL = `https://${
   process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL || 'localhost:3000'
 }`
-const title = 'Cocktail Recipe Generator: AI-Powered Air Fryer Recipes'
+const title = 'Cocktail Recipe Generator: AI-Powered Cocktail Recipes'
 const description =
-  'Your AI-Powered Air Fryer Recipe Generator. Smart air fryer recipes with intelligent recipe generation.'
+  'Your AI-Powered Cocktail Recipe Generator. Smart cocktail recipes with intelligent recipe generation.'
 const siteName = 'Recipe Generator'
 const twitter = '@yourtwitterhandle'
 

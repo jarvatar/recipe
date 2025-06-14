@@ -23,7 +23,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
           />
         ) : (
           <div className="flex h-full items-center justify-center text-gray-400">
-            🍳
+            🍸
           </div>
         )}
       </div>
@@ -34,7 +34,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
           {recipe.description}
         </p>
         <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
-          <span>🕒 {recipe.cookingTime} mins</span>
+          <span>🥃 {recipe.glassType}</span>
         </div>
       </div>
     </Link>

@@ -11,7 +11,7 @@ const replicate = new Replicate({
 export async function processRecipeWithImage(recipe: Recipe) {
   try {
     // 1. Generate image with Replicate
-    let ingredients = 'kitchen stuff'
+    let ingredients = 'cocktail ingredients'
     if (recipe.ingredients) {
       ingredients = (recipe.ingredients as { name: string }[])
         .map((ingredient) => ingredient.name)
@@ -28,7 +28,8 @@ export async function processRecipeWithImage(recipe: Recipe) {
           num_outputs: 1,
           output_format: 'jpg',
           output_quality: 95,
-          prompt: `A beautiful photo of ${recipe.title} surrounded by ${ingredients} next to an air fryer, food photography, professional lighting, appetizing, food blog style, 8k`,
+          prompt: `A high-resolution, photo-realistic image of a ${recipe.title} served in a ${recipe.glassType}, placed on a polished bar counter. The drink appears vibrant and visually striking, showing its distinctive color and clarity. A ${recipe.garnish} is positioned naturally — resting on the drink, skewered on a cocktail pick, or gently placed against the rim — with realistic weight, shadows, and gravity. The lighting is moody and cinematic, casting soft, directional highlights and shadows. The background shows a softly blurred upscale bar interior with shallow depth of field. Professional cocktail photography style, 8K, food blog aesthetic, appetizing presentation. No floating garnish, no surreal elements, no distortion, no CGI.
+`, 
         },
       }
     )) as unknown as string

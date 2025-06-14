@@ -27,9 +27,9 @@ describe('idToSlug', () => {
     )
   })
 
-  it('should simplify recipe names', () => {
-    const result = idToSlug('air-fryer-salmon-with-roasted-potatoes-and-mushrooms-1', '123')
-    expect(result).toBe('salmon-roasted-potatoes-mushrooms-1-123')
+  it('should simplify cocktail recipe names', () => {
+    const result = idToSlug('classic-martini-with-olive-garnish-1', '123')
+    expect(result).toBe('classic-martini-olive-garnish-1-123')
   })
 
   describe('edge cases', () => {
