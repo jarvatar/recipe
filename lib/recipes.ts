@@ -14,6 +14,11 @@ export const RecipeSchema = z.object({
     })
   ),
   instructions: z.array(z.string()),
+  baseSpirit: z.string().optional(),
+  cocktailType: z.string().optional(),
+  adjective: z.string().optional(),
+  season: z.string().optional(),
+  drinkClassification: z.string().optional(),
   alternativeIngredients: z.array(z.string()).optional(),
   bestServedWith: z.string().optional(),
   funnyQuote: z.string(),

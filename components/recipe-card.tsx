@@ -34,8 +34,11 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
           {recipe.description}
         </p>
         <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
-          <span>🥃 {recipe.glassType}</span>
+          <span>🥃 {recipe.baseSpirit}</span>
+          <span> + </span>
+          <span>🍋 {recipe.garnish}</span>
         </div>
+
       </div>
     </Link>
   )

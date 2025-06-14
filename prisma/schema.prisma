@@ -21,9 +21,18 @@ model Recipe {
   garnish     String // "Lemon twist", "Olive", "Mint sprig", etc.
   instructions Json
   
-  // Additional information fields requested in the prompt
-  alternativeIngredients Json? // List of alternative ingredients that can be used
-  bestServedWith String? // Description of what the cocktail is best served with
+  // Primary classification
+  baseSpirit     String?    // e.g., "Gin", "Tequila", "Bourbon"
+  cocktailType   String?    // e.g., "Martini", "Margarita", "Sour"
+  
+  // Descriptive attributes
+  adjective      String?    // e.g., "Refreshing", "Strong", "Sweet"
+  season         String?    // e.g., "Summer", "Winter", "All Year"
+  drinkClassification String? // e.g., "Aperitifs", "Digestifs", "Brunch Cocktails", "Dessert Cocktails", "Party Cocktails"
+  
+  // Additional information
+  alternativeIngredients Json? // List of alternative ingredients
+  bestServedWith        String? // What the cocktail pairs well with
   
   funnyQuote  String
   imageUrl    String?  // We make an AI image with Replicate

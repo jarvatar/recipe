@@ -88,8 +88,14 @@ export default async function RecipePage({
               {recipe.title}
             </h1>
             <p className="text-xl text-muted-foreground">
-              {recipe.description}
+              {recipe.description}.
             </p>
+            {/* Only show the adjective/season description if both fields exist */}
+            {/* {recipe.adjective && recipe.season && (
+              <p className="text-lg text-muted-foreground">
+                A {recipe.adjective.toLowerCase()} cocktail perfect for {recipe.season.toLowerCase()}.
+              </p>
+            )} */}
           </div>
 
           {/* SEO: Image with descriptive alt text and dimensions */}
@@ -117,11 +123,36 @@ export default async function RecipePage({
             <div className="inline-flex items-center rounded-full border border-green-500/50 bg-green-500/10 px-6 py-2 text-green-900 dark:text-green-200">
               🍋 {recipe.garnish}
             </div>
+            
+            {recipe.baseSpirit && (
+              <Link
+                href={`/${recipe.baseSpirit.toLowerCase()}-cocktails`}
+                className="inline-flex items-center rounded-full border border-blue-500/50 bg-blue-500/10 px-6 py-2 text-blue-900 dark:text-blue-200"
+              >
+                🥃 {recipe.baseSpirit}
+              </Link>
+            )}
+            
+            {recipe.cocktailType && (
+              <Link
+                href={`/${recipe.cocktailType.toLowerCase().replace(/\s+/g, '-')}-cocktails`}
+                className="inline-flex items-center rounded-full border border-green-500/50 bg-green-500/10 px-6 py-2 text-green-900 dark:text-green-200"
+              >
+                🍸 {recipe.cocktailType}
+              </Link>
+            )}
+          </div>
+
+          {/* Add SEO-friendly text links */}
+          <div className="text-sm text-muted-foreground">
+            <p>
+              Learn how to make the perfect {recipe.title} cocktail recipe at home. This {recipe.adjective?.toLowerCase() || 'classic'} {recipe.cocktailType?.toLowerCase() || 'cocktail'}{recipe.baseSpirit ? ` features ${recipe.baseSpirit.toLowerCase()} as the base spirit` : ''} and is served in a {recipe.glassType.toLowerCase()}. {recipe.drinkClassification === 'Aperitifs' ? 'Perfect as a pre-dinner aperitif' : recipe.drinkClassification === 'Digestifs' ? 'Ideal as a post-dinner digestif' : recipe.drinkClassification === 'Brunch Cocktails' ? 'Great for weekend brunch' : recipe.drinkClassification === 'Dessert Cocktails' ? 'Perfect with dessert' : recipe.drinkClassification === 'Party Cocktails' ? 'Ideal for entertaining groups' : 'A great drink anytime'}{recipe.season === 'Summer' ? ', this drink shines in the heat of summer' : recipe.season === 'Fall' ? ', this drink brings out the natural colors of autumn' : recipe.season === 'Winter' ? ', this drink warms you through the cold winter months' : recipe.season === 'Spring' ? ', this drink captures the fresh spirit of spring' : recipe.season === 'All Year' ? ', this versatile drink is perfect year-round' : ''}. Get the complete ingredient list, step-by-step mixing instructions, and expert tips.
+            </p>
           </div>
 
           {/* SEO: Semantic sections with proper heading hierarchy */}
           <div id="ingredients" className="space-y-4">
-            <h2 className="text-3xl font-bold">Ingredients</h2>
+            <h2 className="text-3xl font-bold">{recipe.title} Ingredients</h2>
             <ul className="grid gap-2 text-lg">
               {ingredients.map((ingredient, i) => (
                 <li key={i} className="flex items-center gap-2">
@@ -138,7 +169,7 @@ export default async function RecipePage({
           </div>
 
           <div id="instructions" className="space-y-4">
-            <h2 className="text-3xl font-bold">Instructions</h2>
+            <h2 className="text-3xl font-bold">Mixing Instructions for {recipe.title}</h2>
             <ol className="space-y-4 text-lg">
               {instructions.map((instruction, i) => (
                 <li key={i} className="flex gap-4">
@@ -153,22 +184,33 @@ export default async function RecipePage({
             </ol>
           </div>
 
-          <blockquote className="rounded-xl border bg-muted/50 p-6 text-lg italic text-muted-foreground">
-            "{recipe.funnyQuote}"
-          </blockquote>
-
           {/* Additional recipe information */}
           {recipe.alternativeIngredients && (
             <div className="space-y-4">
               <h2 className="text-3xl font-bold">Alternative Ingredients</h2>
               <div className="rounded-xl border bg-muted/20 p-6">
                 <ul className="space-y-2 text-lg">
-                  {(JSON.parse(recipe.alternativeIngredients as string) as string[]).map((alternative, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-orange-500">•</span>
-                      <span>{alternative}</span>
-                    </li>
-                  ))}
+                  {(() => {
+                    const altIngredients = recipe.alternativeIngredients;
+                    let alternatives: string[] = [];
+                    
+                    if (typeof altIngredients === 'string') {
+                      try {
+                        alternatives = JSON.parse(altIngredients);
+                      } catch {
+                        alternatives = [altIngredients];
+                      }
+                    } else if (Array.isArray(altIngredients)) {
+                      alternatives = altIngredients;
+                    }
+                    
+                    return alternatives.map((alternative, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-orange-500">•</span>
+                        <span>{alternative}</span>
+                      </li>
+                    ));
+                  })()}
                 </ul>
               </div>
             </div>
@@ -176,7 +218,7 @@ export default async function RecipePage({
 
           {recipe.bestServedWith && (
             <div className="space-y-4">
-              <h2 className="text-3xl font-bold">Best Served With</h2>
+              <h2 className="text-3xl font-bold">A {recipe.title} is best served with</h2>
               <div className="rounded-xl border bg-gradient-to-br from-amber-50 to-orange-50 p-6 dark:from-amber-950/20 dark:to-orange-950/20">
                 <p className="text-lg text-amber-900 dark:text-amber-100">
                   🍽️ {recipe.bestServedWith}
@@ -184,10 +226,12 @@ export default async function RecipePage({
               </div>
             </div>
           )}
-
+          <blockquote className="rounded-xl border bg-muted/50 p-6 text-lg italic text-muted-foreground">
+            "{recipe.funnyQuote}"
+          </blockquote>
           {/* SEO: Internal linking to related content improves site structure */}
           {similarRecipes.length > 0 && (
-            <div className="mt-8 space-y-8 border-t pt-8">
+            <div className="mt-8 space-y-8 border-t pt-20 pb-20">
               <h2 className="text-2xl font-bold sm:text-4xl">More Recipes</h2>
               <div className="grid gap-8 sm:grid-cols-3">
                 {similarRecipes.map((recipe) => (

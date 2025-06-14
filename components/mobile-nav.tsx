@@ -11,24 +11,43 @@ import * as React from 'react'
 const navConfig = {
   mainNav: [
     {
-      title: 'App',
+      title: 'Home',
       href: '/',
     },
     {
-      title: 'Recipes',
+      title: 'All Recipes',
       href: '/recipes',
     },
   ],
   sidebarNav: [
     {
-      title: 'App',
+      title: 'By Spirit',
       items: [
-        {
-          title: 'App',
-          href: '/',
-          label: 'New',
-          disabled: false,
-        },
+        { title: 'Whiskey', href: '/whiskey-cocktails', disabled: false, label: undefined },
+        { title: 'Gin', href: '/gin-cocktails', disabled: false, label: undefined },
+        { title: 'Vodka', href: '/vodka-cocktails', disabled: false, label: undefined },
+        { title: 'Rum', href: '/rum-cocktails', disabled: false, label: undefined },
+        { title: 'Tequila', href: '/tequila-cocktails', disabled: false, label: undefined },
+        { title: 'Bourbon', href: '/bourbon-cocktails', disabled: false, label: undefined },
+      ],
+    },
+    {
+      title: 'By Type',
+      items: [
+        { title: 'Martini', href: '/martini-cocktails', disabled: false, label: undefined },
+        { title: 'Margarita', href: '/margarita-cocktails', disabled: false, label: undefined },
+        { title: 'Sour', href: '/sour-cocktails', disabled: false, label: undefined },
+        { title: 'Old Fashioned', href: '/old-fashioned-cocktails', disabled: false, label: undefined },
+        { title: 'Manhattan', href: '/manhattan-cocktails', disabled: false, label: undefined },
+      ],
+    },
+    {
+      title: 'By Season',
+      items: [
+        { title: 'Summer', href: '/summer-cocktails', disabled: false, label: undefined },
+        { title: 'Winter', href: '/winter-cocktails', disabled: false, label: undefined },
+        { title: 'Spring', href: '/spring-cocktails', disabled: false, label: undefined },
+        { title: 'Fall', href: '/fall-cocktails', disabled: false, label: undefined },
       ],
     },
   ],
