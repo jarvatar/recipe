@@ -49,9 +49,10 @@ const FILTER_CONFIG = {
 export async function generateMetadata({
   params,
 }: {
-  params: { filter: string }
+  params: Promise<{ filter: string }>
 }) {
-  const config = FILTER_CONFIG[params.filter as keyof typeof FILTER_CONFIG]
+  const { filter } = await params
+  const config = FILTER_CONFIG[filter as keyof typeof FILTER_CONFIG]
   
   if (!config) {
     return generatePageMeta({
@@ -74,16 +75,17 @@ export async function generateMetadata({
   return generatePageMeta({
     title: `${recipeCount} Best ${config.value} Cocktail Recipes | ${typeLabel}`,
     description: `Discover our collection of ${recipeCount} of the best ${config.value.toLowerCase()} cocktail recipes. Perfect ${config.type === 'season' ? `for ${config.value.toLowerCase()}` : `${config.value.toLowerCase()} drinks`} for any occasion.`,
-    url: `/${params.filter}`,
+    url: `/${filter}`,
   })
 }
 
 export default async function FilterPage({
   params,
 }: {
-  params: { filter: string }
+  params: Promise<{ filter: string }>
 }) {
-  const config = FILTER_CONFIG[params.filter as keyof typeof FILTER_CONFIG]
+  const { filter } = await params
+  const config = FILTER_CONFIG[filter as keyof typeof FILTER_CONFIG]
   
   if (!config) {
     notFound()
