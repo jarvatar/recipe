@@ -7,9 +7,9 @@ import { ArrowRight } from 'lucide-react'
 import { Suspense } from 'react'
 
 export const metadata = generatePageMeta({
-  title: 'Cocktail Recipes',
+  title: 'Cocktail Muse - AI Powered, Human Verified Cocktail Recipes',
   description:
-    'Transform any ingredients into perfect cocktails with AI guidance. Photo-based instructions, precise mixing techniques. Become a Cocktail Master.',
+    'Transform any ingredients into perfect cocktails with AI guidance. Photo-based instructions, precise mixing techniques. Become a Cocktail Master - on Cocktail Muse.',
   url: '/',
 })
 

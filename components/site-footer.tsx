@@ -12,10 +12,10 @@ export function SiteFooter() {
             4rd Marketing SEO
           </a>
           <p className="text-center text-sm leading-loose text-muted-foreground">
-            Cocktail Magic
+            Cocktail Muse
           </p>
         </div>
-Copyright 2025 Cocktail Magic
+Copyright 2025 Cocktail Muse
       </div>
     </footer>
   )

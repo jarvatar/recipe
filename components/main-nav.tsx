@@ -9,8 +9,8 @@ export function MainNav() {
     <div className="flex w-full items-center">
       {/* Left side - Logo */}
       <div className="flex items-center">
-        <Link href="/" className="text-xl font-bold">
-          🍸 Cocktails
+        <Link href="/" className="text-lg font-extralight">
+          🍸 Cocktail Muse
         </Link>
       </div>
       
@@ -30,14 +30,14 @@ export function MainNav() {
         <div className="hidden md:flex md:items-center md:gap-4">
           <Link
             href="/recipes"
-            className="text-sm font-medium transition-colors hover:text-primary"
+            className="text-sm font-extralight transition-colors hover:text-primary"
           >
             All Recipes
           </Link>
           
           {/* Base Spirit Dropdown */}
           <div className="relative group">
-            <button className="text-sm font-medium transition-colors hover:text-primary">
+            <button className="text-sm font-extralight transition-colors hover:text-primary">
               By Spirit
             </button>
             <div className="absolute right-0 top-full hidden w-48 rounded-md border bg-background p-2 shadow-lg group-hover:block">
@@ -82,7 +82,7 @@ export function MainNav() {
 
           {/* Cocktail Type Dropdown */}
           <div className="relative group">
-            <button className="text-sm font-medium transition-colors hover:text-primary">
+            <button className="text-sm font-extralight transition-colors hover:text-primary">
               By Type
             </button>  
             <div className="absolute right-0 top-full hidden w-48 rounded-md border bg-background p-2 shadow-lg group-hover:block">
@@ -121,7 +121,7 @@ export function MainNav() {
 
           {/* Season Dropdown */}
           <div className="relative group">
-            <button className="text-sm font-medium transition-colors hover:text-primary">
+              <button className="text-sm font-extralight transition-colors hover:text-primary">
               By Season
             </button>
             <div className="absolute right-0 top-full hidden w-48 rounded-md border bg-background p-2 shadow-lg group-hover:block">
