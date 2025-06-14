@@ -201,7 +201,7 @@ export default async function RecipePage({
                         alternatives = [altIngredients];
                       }
                     } else if (Array.isArray(altIngredients)) {
-                      alternatives = altIngredients;
+                      alternatives = altIngredients.filter((item): item is string => typeof item === 'string');
                     }
                     
                     return alternatives.map((alternative, i) => (
