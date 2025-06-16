@@ -180,7 +180,7 @@ export default async function RecipePage({
                 <li key={i} className="flex gap-4">
                   <span className="select-none font-semibold">{`${i + 1}.`}</span>
                   <span>
-                    {instruction.match(/^\d+\.\s/)
+                    {typeof instruction === 'string' && instruction.match(/^\d+\.\s/)
                       ? instruction.slice(2)
                       : instruction}
                   </span>
