@@ -61,7 +61,7 @@ export default async function RecipePage({
     { name: string; emoji?: string; amount?: string }[]
   >(recipe.ingredients)
 
-  const instructions = Prisma.parseJson<string[]>(recipe.instructions)
+  const instructions = Prisma.parseJson<(string | { step?: number; instruction: string })[]>(recipe.instructions)
 
   return (
     <>
@@ -176,16 +176,22 @@ export default async function RecipePage({
           <div id="instructions" className="space-y-4">
             <h2 className="text-3xl font-bold">Mixing Instructions for {recipe.title}</h2>
             <ol className="space-y-4 text-lg">
-              {instructions.map((instruction, i) => (
-                <li key={i} className="flex gap-4">
-                  <span className="select-none font-semibold">{`${i + 1}.`}</span>
-                  <span>
-                    {typeof instruction === 'string' && instruction.match(/^\d+\.\s/)
-                      ? instruction.slice(2)
-                      : instruction}
-                  </span>
-                </li>
-              ))}
+              {instructions.map((instruction, i) => {
+                const instructionText = typeof instruction === 'string' 
+                  ? instruction 
+                  : instruction?.instruction || '';
+                
+                return (
+                  <li key={i} className="flex gap-4">
+                    <span className="select-none font-semibold">{`${i + 1}.`}</span>
+                    <span>
+                      {instructionText.match(/^\d+\.\s/)
+                        ? instructionText.slice(2)
+                        : instructionText}
+                    </span>
+                  </li>
+                );
+              })}
             </ol>
           </div>
      {/* Add this new section for ingredient explanations */}
