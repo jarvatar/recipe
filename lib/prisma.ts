@@ -19,5 +19,12 @@ Prisma.parseJson = <
 >(
   json: Prisma.JsonValue
 ): T => {
+  if (typeof json === 'string') {
+    try {
+      return JSON.parse(json) as T
+    } catch {
+      return json as T
+    }
+  }
   return json as T
 }

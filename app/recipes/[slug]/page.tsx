@@ -58,11 +58,29 @@ export default async function RecipePage({
     return null
   }
 
-  const ingredients = Prisma.parseJson<
-    { name: string; emoji?: string; amount?: string }[]
-  >(recipe.ingredients)
+  const ingredients = (() => {
+    try {
+      const parsed = Prisma.parseJson<{ name: string; emoji?: string; amount?: string }[]>(recipe.ingredients)
+      if (!Array.isArray(parsed)) {
+        console.warn('Ingredients is not an array:', typeof parsed, parsed)
+        return []
+      }
+      return parsed
+    } catch (error) {
+      console.error('Error parsing ingredients:', error, 'Raw data:', recipe.ingredients)
+      return []
+    }
+  })()
 
-  const instructions = Prisma.parseJson<(string | { step?: number; instruction: string })[]>(recipe.instructions)
+  const instructions = (() => {
+    try {
+      const parsed = Prisma.parseJson<(string | { step?: number; instruction: string })[]>(recipe.instructions)
+      return Array.isArray(parsed) ? parsed : []
+    } catch (error) {
+      console.error('Error parsing instructions:', error)
+      return []
+    }
+  })()
 
   return (
     <>
@@ -196,17 +214,24 @@ export default async function RecipePage({
             </ol>
           </div>
      {/* Add this new section for ingredient explanations */}
-     {recipe.ingredientExplanations && (
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold">Why These Ingredients For The Perfect {recipe.title}?</h2>
-              <div className="rounded-xl border bg-gradient-to-br from-blue-50 to-indigo-50 p-6 dark:from-blue-950/20 dark:to-indigo-950/20">
-                <div 
-                  className="prose prose-lg max-w-none text-blue-900 dark:text-blue-100"
-                  dangerouslySetInnerHTML={{ __html: recipe.ingredientExplanations }}
-                />
-              </div>
-            </div>
-          )}
+     {(() => {
+       if (!recipe.ingredientExplanations) {
+         console.log('No ingredient explanations found for recipe:', recipe.title, 'Value:', recipe.ingredientExplanations)
+         return null
+       }
+       
+       return (
+         <div className="space-y-4">
+           <h2 className="text-3xl font-bold">Why These Ingredients For The Perfect {recipe.title}?</h2>
+           <div className="rounded-xl border bg-gradient-to-br from-blue-50 to-indigo-50 p-6 dark:from-blue-950/20 dark:to-indigo-950/20">
+             <div 
+               className="prose prose-lg max-w-none text-blue-900 dark:text-blue-100"
+               dangerouslySetInnerHTML={{ __html: recipe.ingredientExplanations }}
+             />
+           </div>
+         </div>
+       )
+     })()}
 
           {/* Additional recipe information */}
           {recipe.alternativeIngredients && (
@@ -215,25 +240,29 @@ export default async function RecipePage({
               <div className="rounded-xl border bg-muted/20 p-6">
                 <ul className="space-y-2 text-lg">
                   {(() => {
-                    const altIngredients = recipe.alternativeIngredients;
-                    let alternatives: string[] = [];
-                    
-                    if (typeof altIngredients === 'string') {
-                      try {
-                        alternatives = JSON.parse(altIngredients);
-                      } catch {
-                        alternatives = [altIngredients];
-                      }
-                    } else if (Array.isArray(altIngredients)) {
-                      alternatives = altIngredients.filter((item): item is string => typeof item === 'string');
+                    try {
+                      const parsed = Prisma.parseJson<string[]>(recipe.alternativeIngredients);
+                      const alternatives = Array.isArray(parsed) 
+                        ? parsed.filter((item): item is string => typeof item === 'string')
+                        : typeof parsed === 'string' 
+                          ? [parsed]
+                          : [];
+                      
+                      return alternatives.map((alternative, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-orange-500">•</span>
+                          <span>{alternative}</span>
+                        </li>
+                      ));
+                    } catch (error) {
+                      console.error('Error parsing alternative ingredients:', error)
+                      return (
+                        <li className="flex items-start gap-2">
+                          <span className="text-orange-500">•</span>
+                          <span>Alternative ingredients data could not be loaded</span>
+                        </li>
+                      );
                     }
-                    
-                    return alternatives.map((alternative, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-orange-500">•</span>
-                        <span>{alternative}</span>
-                      </li>
-                    ));
                   })()}
                 </ul>
               </div>
