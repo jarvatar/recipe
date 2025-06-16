@@ -12,6 +12,7 @@ const FILTER_CONFIG = {
   'rum-cocktails': { field: 'baseSpirit', value: 'Rum', type: 'spirit' },
   'tequila-cocktails': { field: 'baseSpirit', value: 'Tequila', type: 'spirit' },
   'bourbon-cocktails': { field: 'baseSpirit', value: 'Bourbon', type: 'spirit' },
+  'cognac-cocktails': { field: 'baseSpirit', value: 'Cognac', type: 'spirit' },
   'brandy-cocktails': { field: 'baseSpirit', value: 'Brandy', type: 'spirit' },
   'liqueur-cocktails': { field: 'baseSpirit', value: 'Liqueur-based', type: 'spirit' },
 
