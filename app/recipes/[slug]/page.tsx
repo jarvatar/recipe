@@ -249,7 +249,7 @@ export default async function RecipePage({
           {/* SEO: Internal linking to related content improves site structure */}
           {similarRecipes.length > 0 && (
             <div className="mt-8 space-y-8 border-t pt-20 pb-20">
-              <h2 className="text-2xl font-bold sm:text-4xl">More Recipes</h2>
+              <h2 className="text-2xl font-bold sm:text-4xl">More Cocktail Recipes</h2>
               <div className="grid gap-8 sm:grid-cols-3">
                 {similarRecipes.map((recipe) => (
                   <Link

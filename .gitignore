@@ -51,3 +51,9 @@ import-recipes.ts
 new-recipes.csv
 seasonal-recipes.csv
 prisma/migrations/20250616140517_add_ingredient_explanations/migration.sql
+check-database.ts
+check-production-issues.ts
+detailed-analysis.ts
+fix-database-formats.ts
+fix-missing-explanations.ts
+updatesiteproblems.md

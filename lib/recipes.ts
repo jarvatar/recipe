@@ -42,7 +42,7 @@ export async function getSimilarRecipes(id: number) {
       // Random order using Postgres
       createdAt: 'desc',
     },
-    take: 3,
+    take: 6,
   })
 
   // Additional shuffle for true randomness
