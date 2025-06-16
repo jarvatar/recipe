@@ -29,6 +29,7 @@ export async function generateMetadata({
   const ingredients = Prisma.parseJson<
     { name: string; emoji?: string; amount?: string }[]
   >(recipe.ingredients)
+  
 
   // SEO: Generate unique metadata for each recipe
   // Including Open Graph image for better social sharing
