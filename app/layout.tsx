@@ -79,6 +79,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           content="light dark"
           suppressHydrationWarning
         />
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="0f1a8313-76a4-45bb-873d-7214a71d4bf0"></script>
       </head>
       <body
         className={cn(

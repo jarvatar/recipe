@@ -6,7 +6,7 @@ export function getGarnishEmoji(garnish: string): string {
   if (lower.includes('lime')) return '🟢'
   if (lower.includes('orange')) return '🍊'
   if (lower.includes('cherry')) return '🍒'
-  if (lower.includes('olive')) return '🫒'
+  if (lower.includes('olive')) return '🌿'
   if (lower.includes('mint')) return '🌿'
   if (lower.includes('bacon')) return '🥓'
   if (lower.includes('watermelon')) return '🍉'
