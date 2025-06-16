@@ -2,7 +2,8 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 import { RecipeSchema } from '@/components/recipe-schema'
 import { getRecipe, getSimilarRecipes } from '@/lib/recipes'
 import { generatePageMeta } from '@/lib/seo'
-import { slugToID } from '@/lib/slug-utils'
+import { slugToID, idToSlug } from '@/lib/slug-utils'
+import { getGarnishEmoji } from '@/lib/garnish-utils'
 import { Prisma } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -32,8 +33,8 @@ export async function generateMetadata({
   // SEO: Generate unique metadata for each recipe
   // Including Open Graph image for better social sharing
   return generatePageMeta({
-    title: recipe.title,
-    description: recipe.description,
+    title: `How to make a ${recipe.title} cocktail. ${recipe.title} cocktail recipe.`,
+    description: `Learn how to make a ${recipe.title} cocktail. ${recipe.title} cocktail recipe from Cocktail Muse featuring ${recipe.baseSpirit}, and ${recipe.garnish} perfect for ${recipe.season}.`,
     url: `/recipes/${slug}`,
     image: `/og?path=/recipes/${slug}&title=${encodeURIComponent(recipe.title)}&emoji=${encodeURIComponent(ingredients[0]?.emoji || '🍸')}`,
     image_alt: recipe.title,
@@ -70,7 +71,11 @@ export default async function RecipePage({
           <Breadcrumbs
             items={[
               { label: 'Home', href: '/' },
-              { label: 'Recipes', href: '/recipes' },
+              { label: 'Cocktail Recipes', href: '/recipes' },
+              { 
+                label: `${recipe.baseSpirit || 'Mixed'} Cocktails`, 
+                href: `/${(recipe.baseSpirit || 'mixed').toLowerCase()}-cocktails` 
+              },
               { label: recipe.title },
             ]}
           />
@@ -121,7 +126,7 @@ export default async function RecipePage({
               🥃 {recipe.glassType}
             </div>
             <div className="inline-flex items-center rounded-full border border-green-500/50 bg-green-500/10 px-6 py-2 text-green-900 dark:text-green-200">
-              🍋 {recipe.garnish}
+              {getGarnishEmoji(recipe.garnish)} {recipe.garnish}
             </div>
             
             {recipe.baseSpirit && (
@@ -183,6 +188,18 @@ export default async function RecipePage({
               ))}
             </ol>
           </div>
+     {/* Add this new section for ingredient explanations */}
+     {recipe.ingredientExplanations && (
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold">Why These Ingredients For The Perfect {recipe.title}?</h2>
+              <div className="rounded-xl border bg-gradient-to-br from-blue-50 to-indigo-50 p-6 dark:from-blue-950/20 dark:to-indigo-950/20">
+                <div 
+                  className="prose prose-lg max-w-none text-blue-900 dark:text-blue-100"
+                  dangerouslySetInnerHTML={{ __html: recipe.ingredientExplanations }}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Additional recipe information */}
           {recipe.alternativeIngredients && (
@@ -237,7 +254,7 @@ export default async function RecipePage({
                 {similarRecipes.map((recipe) => (
                   <Link
                     key={recipe.id}
-                    href={`/recipes/${recipe.id}`}
+                    href={`/recipes/${idToSlug(recipe.title, recipe.id)}`}
                     className="group space-y-2"
                   >
                     <div className="aspect-video w-full overflow-hidden rounded-xl border-2 border-black/5 bg-muted shadow-lg dark:border-white/5 dark:shadow-yellow-400/5">

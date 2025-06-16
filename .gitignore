@@ -39,3 +39,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 README.md
+add-recipes-from-csv.ts
+check-all-instructions.ts
+example-recipes.csv
+export-recipes.ts
+fix-all-instructions.ts
+fix-and-migrate.sql
+fix-instructions.sql
+generate-missing-images.ts
+import-recipes.ts
+new-recipes.csv
+seasonal-recipes.csv
+prisma/migrations/20250616140517_add_ingredient_explanations/migration.sql

@@ -77,6 +77,18 @@ export function MainNav() {
               >
                 Bourbon
               </Link>
+              <Link
+                href="/cognac-cocktails"
+                className="block rounded-sm px-2 py-1 text-sm hover:bg-accent"
+              >
+                Cognac
+              </Link>
+              <Link
+                href="/brandy-cocktails"
+                className="block rounded-sm px-2 py-1 text-sm hover:bg-accent"
+              >
+                Brandy
+              </Link>
             </div>
           </div>
 
@@ -126,6 +138,12 @@ export function MainNav() {
             </button>
             <div className="absolute right-0 top-full hidden w-48 rounded-md border bg-background p-2 shadow-lg group-hover:block">
               <Link
+                href="/all-year-cocktails"
+                className="block rounded-sm px-2 py-1 text-sm hover:bg-accent"
+              >
+                All Year
+              </Link>
+              <Link
                 href="/summer-cocktails"
                 className="block rounded-sm px-2 py-1 text-sm hover:bg-accent"
               >
@@ -151,6 +169,14 @@ export function MainNav() {
               </Link>
             </div>
           </div>
+
+          {/* About Link - at the end */}
+          <Link
+            href="/about"
+            className="text-sm font-extralight transition-colors hover:text-primary"
+          >
+            About
+          </Link>
         </div>
       </div>
     </div>

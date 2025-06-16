@@ -1,6 +1,7 @@
 'use client'
 
 import { RecipeSchema } from '@/lib/recipes'
+import { getGarnishEmoji } from '@/lib/garnish-utils'
 import { experimental_useObject as useObject } from 'ai/react'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
@@ -65,7 +66,7 @@ export function RecipeGenerator() {
           {recipe.glassType && recipe.garnish && (
             <div className="flex gap-4 text-sm text-muted-foreground">
               <div>🥃 {recipe.glassType}</div>
-              <div>🍋 {recipe.garnish}</div>
+              <div>{getGarnishEmoji(recipe.garnish)} {recipe.garnish}</div>
             </div>
           )}
 

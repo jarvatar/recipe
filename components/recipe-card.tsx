@@ -1,4 +1,5 @@
 import { idToSlug } from '@/lib/slug-utils'
+import { getGarnishEmoji } from '@/lib/garnish-utils'
 import { Recipe } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -36,7 +37,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
         <div className="mt-auto flex items-center gap-2 text-sm text-muted-foreground">
           <span>🥃 {recipe.baseSpirit}</span>
           <span> + </span>
-          <span>🍋 {recipe.garnish}</span>
+          <span>{getGarnishEmoji(recipe.garnish)} {recipe.garnish}</span>
         </div>
 
       </div>

@@ -4,6 +4,7 @@ import { openai } from '@ai-sdk/openai'
 import { streamObject } from 'ai'
 import { processRecipeWithImage } from './image-processor'
 import { normalizeCategory } from '@/lib/category-mappings'
+import { processRecipeWithIngredientExplanations } from './ingredient-processor'
 
 export async function POST(request: Request) {
   try {
@@ -75,7 +76,10 @@ export async function POST(request: Request) {
           data: recipe as any,
         })
 
-        await processRecipeWithImage(createdRecipe)
+        await Promise.all([
+          processRecipeWithImage(createdRecipe),
+          processRecipeWithIngredientExplanations(createdRecipe)
+        ])
       },
     })
 

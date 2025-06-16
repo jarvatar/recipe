@@ -18,6 +18,10 @@ const navConfig = {
       title: 'All Recipes',
       href: '/recipes',
     },
+    {
+      title: 'About',
+      href: '/about',
+    },
   ],
   sidebarNav: [
     {
@@ -29,6 +33,8 @@ const navConfig = {
         { title: 'Rum', href: '/rum-cocktails', disabled: false, label: undefined },
         { title: 'Tequila', href: '/tequila-cocktails', disabled: false, label: undefined },
         { title: 'Bourbon', href: '/bourbon-cocktails', disabled: false, label: undefined },
+        { title: 'Cognac', href: '/cognac-cocktails', disabled: false, label: undefined },
+        { title: 'Brandy', href: '/brandy-cocktails', disabled: false, label: undefined },
       ],
     },
     {
@@ -44,6 +50,7 @@ const navConfig = {
     {
       title: 'By Season',
       items: [
+        { title: 'All Year', href: '/all-year-cocktails', disabled: false, label: undefined },
         { title: 'Summer', href: '/summer-cocktails', disabled: false, label: undefined },
         { title: 'Winter', href: '/winter-cocktails', disabled: false, label: undefined },
         { title: 'Spring', href: '/spring-cocktails', disabled: false, label: undefined },
