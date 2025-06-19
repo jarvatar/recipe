@@ -6,11 +6,49 @@ import { processRecipeWithImage } from './image-processor'
 import { normalizeCategory } from '@/lib/category-mappings'
 import { processRecipeWithIngredientExplanations } from './ingredient-processor'
 
+// Simple string similarity using Jaccard similarity
+function calculateSimilarity(str1: string, str2: string): number {
+  const words1 = new Set(str1.split(' '))
+  const words2 = new Set(str2.split(' '))
+  
+  const intersection = new Set(Array.from(words1).filter(x => words2.has(x)))
+  const union = new Set(Array.from(words1).concat(Array.from(words2)))
+  
+  return intersection.size / union.size
+}
+
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json()
     if (!prompt) {
       return new Response('Recipe prompt is required', { status: 400 })
+    }
+
+    // Check for fake ingredients in the user's prompt
+    const promptLower = prompt.toLowerCase()
+    const fakeIngredients = [
+      'tears', 'blood', 'sweat', 'unicorn', 'dragon', 'fairy', 'magic',
+      'poison', 'venom', 'spider', 'dirt', 'mud', 'garbage', 'trash',
+      'toilet', 'urine', 'feces', 'poop', 'shit', 'piss', 'vomit',
+      'booger', 'snot', 'earwax', 'dandruff', 'gasoline', 'motor oil',
+      'bleach', 'soap', 'detergent', 'paint', 'glue', 'plastic', 'claw', 
+      'hair', 'nail', 'finger', 'toe', 'toenail', 'fingernail'
+    ]
+    
+    const foundFakeIngredient = fakeIngredients.find(fake => 
+      promptLower.includes(fake)
+    )
+    
+    if (foundFakeIngredient) {
+      return new Response(
+        JSON.stringify({ 
+          error: `Please use real cocktail ingredients! We detected "${foundFakeIngredient}" in your request. Try ingredients like spirits, liqueurs, bitters, fruits, herbs, or mixers instead.` 
+        }), 
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
     }
 
     const stream = streamObject({
@@ -69,6 +107,32 @@ export async function POST(request: Request) {
 
         if (!recipe) {
           console.error('Invalid recipe:', error)
+          return
+        }
+
+
+
+        // Check for duplicate recipes by title similarity
+        const normalizedTitle = recipe.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+        const existingRecipes = await prisma.recipe.findMany({
+          where: {
+            title: {
+              mode: 'insensitive',
+              contains: normalizedTitle.split(' ')[0] // Check if first word of title exists
+            }
+          },
+          select: { id: true, title: true }
+        })
+
+        // Check for high similarity
+        const isDuplicate = existingRecipes.some(existing => {
+          const existingNormalized = existing.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+          const similarity = calculateSimilarity(normalizedTitle, existingNormalized)
+          return similarity > 0.85 // 85% similarity threshold
+        })
+
+        if (isDuplicate) {
+          console.log('Duplicate recipe detected, skipping creation:', recipe.title)
           return
         }
 

@@ -115,6 +115,7 @@ export default async function AppPage() {
 const FeaturedRecipes = async () => {
   const recipes = await prisma.recipe.findMany({
     orderBy: { createdAt: 'desc' },
+    take: 18, // Only show 18 most recent recipes on home page
   })
 
   return (
