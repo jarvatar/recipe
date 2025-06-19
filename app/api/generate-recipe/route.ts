@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         - Add a list of alternative ingredients that can be used to make the cocktail
         - Include a description of what the cocktail is best served with.  Mention how the flavor profile of the cocktail pairs with the food.
         - Use clear, everyday language
-        - Add a humorous quote related to cocktails or drinking
+        - Add a humorous quote related to cocktails or drinking incorporating the ${prompt}
         
         Additionally, classify the cocktail with:
         - Base spirit (e.g., Gin, Tequila, Bourbon)
